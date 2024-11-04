@@ -181,7 +181,7 @@ const UpdateCurso = async (req, res) => {
     }
   } else {
     const regData = req.body;
-
+    console.log("Valor dos dados: ", JSON.stringify(regData))
     try {
       const response = await axios.post(process.env.SERVIDOR_DW3Back + "/updateCursos", regData, {
         headers: {

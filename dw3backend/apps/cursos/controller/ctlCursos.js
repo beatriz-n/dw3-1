@@ -25,6 +25,7 @@ const InsertCursos = (request, res) =>
 const UpdateCursos = (request, res) =>
   (async () => {
     const registro = request.body;
+
     let { msg, linhasAfetadas } = await mdlCursos.UpdateCursos(registro);
     res.json({ status: msg, linhasAfetadas: linhasAfetadas });
   })();

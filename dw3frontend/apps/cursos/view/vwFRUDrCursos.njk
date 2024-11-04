@@ -31,12 +31,12 @@
             <div class="form-group">
               <label for="ativo">Ativo</label>
               <select class="form-select" id="ativo" x-model="form.ativo" x-bind:disabled="disabled">
-                <option :value="true">Sim</option>
-                <option :value="false">Não</option>
+                <option value="true">Sim</option>
+                <option value="false">Não</option>
               </select>
             </div>
 
-            <button type="button" @click="updateForm()" class="btn btn-primary mt-4">Salvar</button>
+            <button type="button" @click="updateForm()" x-show="!disabled" class="btn btn-primary mt-4">Salvar</button>
             <button type="button" @click="deleteForm()" x-show="!disabled" class="btn btn-danger mt-4">Excluir Curso</button>
             <a href="/cursos/manutCursos" class="btn btn-info mt-4 ml-2" role="button" aria-disabled="true">Retornar</a>
           </form>

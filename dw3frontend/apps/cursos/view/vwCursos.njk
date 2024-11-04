@@ -25,16 +25,16 @@
             <table id="tabCursos" class="display" style="width:100%">
               <thead>
                 <tr>
-                  <th>Ação</th>
-                  <th>ID</th>
+                  <th class="text-center">Ação</th>
+                  <th class="text-center">Código</th>
                   <th>Nome do Curso</th>
-                  <th>Ativo</th>
+                  <th class="text-center">Ativo</th>
                 </tr>
               </thead>
               <tbody>
                 {% for curso in data %}
                   <tr>
-                    <td>
+                    <td class="text-center">
                       {# Link para visualização dos dados #}
                       <a href="/cursos/viewCursos/{{ curso.cursoid }}" title="Visualizar">
                         <i class="fas fa-search"></i>
@@ -45,9 +45,15 @@
                         <i class="fas fa-pencil-alt"></i>
                       </a>
                     </td>
-                    <td>{{ curso.cursoid }}</td>
+                    <td class="text-center">{{ curso.codigo }}</td>
                     <td>{{ curso.descricao }}</td>
-                    <td>{{ curso.ativo }}</td>
+                    <td class="text-center">
+                     {% if curso.ativo %}
+                        <span style="color:green">Ativo</span>
+                      {% else %}
+                        <span style="color:red">Desativado</span>
+                      {% endif %}
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
