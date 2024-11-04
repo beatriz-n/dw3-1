@@ -46,30 +46,44 @@ const UpdateCursos = async (registroPar) => {
   let linhasAfetadas;
   let msg = "ok";
   try {
+    // Converte o valor de 'ativo' para booleano, caso venha como string
+    registroPar.ativo = (registroPar.ativo === 'true');
+
+    // Verifica se o valor de registroPar.ativo é um booleano
+    if (typeof registroPar.ativo !== 'boolean') {
+      throw new Error("O valor de 'ativo' deve ser um booleano (true ou false).");
+    }
+
+    // Verifica se os campos obrigatórios estão presentes
+    if (!registroPar.cursoid || !registroPar.codigo || !registroPar.descricao) {
+      throw new Error("Os campos cursoid, codigo e descricao são obrigatórios.");
+    }
+
     linhasAfetadas = (
       await db.query(
         "UPDATE cursos SET " +
           "codigo = $2, " +
           "descricao = $3, " +
           "ativo = $4, " +
-          "deleted = $5 " +          
+          "deleted = false " +          
           "WHERE cursoid = $1",
         [
-            registroPar.cursoid  ,
-            registroPar.codigo   ,
-            registroPar.descricao,
-            registroPar.ativo    ,
-            registroPar.deleted  ,          
+            registroPar.cursoid,  // cursoid do registro que está sendo atualizado
+            registroPar.codigo,    // novo código
+            registroPar.descricao, // nova descrição
+            registroPar.ativo      // novo status de ativo
         ]
       )
-    ).rowCount;
+    ).rowCount; // retorna o número de linhas afetadas
   } catch (error) {
-    msg = "[mdlCursos|UpdateCursos] " + error.detail;
-    linhasAfetadas = -1;
+    console.error("Erro ao atualizar cursos:", error);
+    msg = "[mdlCursos|UpdateCursos] " + (error.detail || error.message || "Erro desconhecido");
+    linhasAfetadas = -1; // define linhas afetadas como -1 em caso de erro
   }
-
-  return { msg, linhasAfetadas };
+  
+  return { linhasAfetadas, msg }; // retorna as linhas afetadas e a mensagem
 };
+
 
 
 const DeleteCursos = async (registroPar) => {

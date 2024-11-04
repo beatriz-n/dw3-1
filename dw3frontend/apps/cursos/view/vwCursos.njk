@@ -2,93 +2,73 @@
 
 {% block content %}
 
-  
   <ol class="breadcrumb mb-2">
-    <li class="breadcrumb-item active">{{title}}</li>
+    <li class="breadcrumb-item active">{{ title }}</li>
   </ol>
+
   <div class="row">
     <div class="col-xl-12">
 
       <div class="card-header">
-        Manutenção de usuários
+        Manutenção de Cursos
       </div>
 
       <div class="card-body">
-        <div class="">
-          <div>
-            <p>Dados</p>
+        <div>
+          <div style="margin-bottom: 15px;">
+            <a href="/cursos/insertCursos" class="btn btn-primary">
+              Inserir novo curso
+            </a>
           </div>
 
           <div style="background-color: #f8f9fa">
-            <table id="table">
+            <table id="tabCursos" class="display" style="width:100%">
               <thead>
                 <tr>
-                  <th data-field="id"  data-sortable="true">ID</th>
-                  <th data-field="name"  data-sortable="true">Item Name</th>
-                  <th data-field="price">Item Price</th>
+                  <th>Ação</th>
+                  <th>ID</th>
+                  <th>Nome do Curso</th>
+                  <th>Ativo</th>
                 </tr>
               </thead>
+              <tbody>
+                {% for curso in data %}
+                  <tr>
+                    <td>
+                      {# Link para visualização dos dados #}
+                      <a href="/cursos/viewCursos/{{ curso.cursoid }}" title="Visualizar">
+                        <i class="fas fa-search"></i>
+                      </a>
+
+                      {# Link para atualização dos dados #}
+                      <a href="/cursos/updateCursos/{{ curso.cursoid }}" title="Atualizar" style="margin-left: 10px;">
+                        <i class="fas fa-pencil-alt"></i>
+                      </a>
+                    </td>
+                    <td>{{ curso.cursoid }}</td>
+                    <td>{{ curso.descricao }}</td>
+                    <td>{{ curso.ativo }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
             </table>
-          
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <script>
+    window.onload = function () {
+      windowOnLoad();
+      //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
+      const localErro = "{{ erro }}";
+      if (localErro != "") {
+        alert("[vwCursos|onload]Servidor retornou o erro:" + localErro);
+      }
 
-
-
-
-<script>
-  window.onload = function () {
-    windowOnLoad();
-
-    var $table = $('#table')
-
-$(function() {
-  var data = [
-    {
-      'id': 0,
-      'name': 'Item 0',
-      'price': '$0'
-    },
-    {
-      'id': 1,
-      'name': 'Item 1',
-      'price': '$1'
-    },
-    {
-      'id': 2,
-      'name': 'Item 2',
-      'price': '$2'
-    },
-    {
-      'id': 3,
-      'name': 'Item 3',
-      'price': '$3'
-    },
-    {
-      'id': 4,
-      'name': 'Item 4',
-      'price': '$4'
-    },
-    {
-      'id': 5,
-      'name': 'Item 5',
-      'price': '$5'
-    }
-  ]
-  $table.bootstrapTable({data: data})
-})
-
-
-
-  };
-
-  
-
-</script>
-
+      new DataTable('#tabCursos');
+    };
+  </script>
 
 {% endblock %}
